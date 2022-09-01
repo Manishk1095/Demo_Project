@@ -1,3 +1,6 @@
+## Requirement
+OpenJDK 1.8
+
 ## Run the Registry
 #### Windows
 ```
@@ -11,6 +14,8 @@ rmiregistry
 ## Compile Tracker and Game
 ```
 cd <to/your/root/project/directory>
+```
+```
 javac -d out/ ./src/Game/*.java src/Tracker/*.java
 ```
 
@@ -26,7 +31,7 @@ start java -classpath "path/to/out/directory" -Djava.rmi.server.codebase="file:/
 cd out
 ```
 ```
-start java -classpath "C:\Users\tioqy\source\MComp - General Track\Semester 1\CS5223 - DISTRIBUTED SYSTEMS\Playground\MazeGame\out" -Djava.rmi.server.codebase="file:/C:\Users\tioqy\source\MComp - General Track\Semester 1\CS5223 - DISTRIBUTED SYSTEMS\Playground\MazeGame\out/" Tracker.Tracker 1099 15 5
+start java -classpath "C:\Users\tioqy\source\MComp - General Track\Semester 1\CS5223 - DISTRIBUTED SYSTEMS\Playground\distributed-systems-assignment-1\out" -Djava.rmi.server.codebase="file:/C:\Users\tioqy\source\MComp - General Track\Semester 1\CS5223 - DISTRIBUTED SYSTEMS\Playground\distributed-systems-assignment-1\out/" Tracker.Tracker 1099 15 5
 ```
 
 ## Execute Game:
