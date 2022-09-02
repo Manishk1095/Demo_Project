@@ -20,7 +20,7 @@ public class Tracker implements TrackerStub {
 			gameInfo.getPlayerList().add(playerInfo);
 			gameInfo.setVersion(gameInfo.getVersion() + 1);
 			System.out.println("New player joins the game:");
-			System.out.println(playerInfo);
+			System.out.println(gameInfo);
 		}
 		return gameInfo;
 	}

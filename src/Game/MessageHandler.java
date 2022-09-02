@@ -28,7 +28,7 @@ public class MessageHandler implements Runnable {
 		Operation operation = message.getOperation();
 		switch (operation) {
 		case PROPAGATE_PLAYER_LIST:
-			if (gameInfo.getVersion() <= message.getGameInfo().getVersion()) {
+			if (gameInfo.getVersion() <= message.getGameInfo().getVersion() || dispatcher.connectionToSecondary == null) {
 				if (gameInfo.getVersion() < message.getGameInfo().getVersion()) {
 					dispatcher.updateGameInfo(message.getGameInfo());					
 				}
@@ -39,8 +39,12 @@ public class MessageHandler implements Runnable {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else if (dispatcher.playerCategory.equals(PlayerCategory.PRIMARY_PLAYER) && dispatcher.connectionToSecondary != null) {
+				} else if (dispatcher.playerCategory.equals(PlayerCategory.PRIMARY_PLAYER)) {
+					while (dispatcher.connectionToSecondary == null) {
+						System.out.println("Waiting to connect to new secondary");
+					}
 					System.out.println("Sync GameInfo with Secondary");
+					System.out.println(dispatcher.connectionToSecondary);
 					Message msg = new Message(Operation.PROPAGATE_PLAYER_LIST, message.getGameInfo(), message.getGameState(), dispatcher.currentPlayerInfo);
 					dispatcher.messagesToSend.put(dispatcher.connectionToSecondary, msg);						
 				}

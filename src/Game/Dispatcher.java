@@ -145,12 +145,12 @@ public class Dispatcher implements Runnable {
 				} catch (Exception e) {
 					PlayerInfo crashedPlayer = (PlayerInfo) key.attachment();
 					if (crashedPlayer != null && !reportedPlayer.contains(crashedPlayer.getId())) {
-						key.cancel();
 						reportedPlayer.add(crashedPlayer.getId());
 						System.out.println(key.attachment() + " is unplugged!");
 						PlayerCrashHandler playerCrashHandler = new PlayerCrashHandler(this, crashedPlayer, gameInfo);
 						playerCrashHandler.handle();
 					}
+					key.cancel();
 				}
 			}
 		}

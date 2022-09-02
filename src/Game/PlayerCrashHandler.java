@@ -27,6 +27,7 @@ public class PlayerCrashHandler {
 				System.out.println("Reporting player " + crashedPlayer.getId() + " has been crashed to Tracker");
 				if (crashedPlayer.getId().equals(gameInfo.getPlayerList().get(1).getId())) {
 					GameInfo latestGameInfo = dispatcher.trackerStub.reportCrashedPlayer(crashedPlayer.getId());
+					dispatcher.connectionToSecondary = null;
 					dispatcher.updateGameInfo(latestGameInfo);
 					Message message = new Message(Operation.NEW_SECONDARY_PLAYER, latestGameInfo, null, dispatcher.currentPlayerInfo);
 					PlayerInfo newSecondaryPlayer = latestGameInfo.getPlayerList().get(1);
