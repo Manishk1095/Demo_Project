@@ -53,6 +53,11 @@ public class PlayerCrashHandler {
 					GameInfo latestGameInfo = null;
 					do {
 						latestGameInfo = dispatcher.trackerStub.fetchGameInfo();
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					} while (latestGameInfo.getVersion() <= gameInfo.getVersion()
 							|| crashedPlayer.getId().equals(latestGameInfo.getPlayerList().get(0).getId()));
 					dispatcher.updateGameInfo(latestGameInfo);

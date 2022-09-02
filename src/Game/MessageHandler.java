@@ -42,9 +42,14 @@ public class MessageHandler implements Runnable {
 				} else if (dispatcher.playerCategory.equals(PlayerCategory.PRIMARY_PLAYER)) {
 					while (dispatcher.connectionToSecondary == null) {
 						System.out.println("Waiting to connect to new secondary");
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
 					System.out.println("Sync GameInfo with Secondary");
-					System.out.println(dispatcher.connectionToSecondary);
+					System.out.println("The GameInfo is: " + message.getGameInfo());
 					Message msg = new Message(Operation.PROPAGATE_PLAYER_LIST, message.getGameInfo(), message.getGameState(), dispatcher.currentPlayerInfo);
 					dispatcher.messagesToSend.put(dispatcher.connectionToSecondary, msg);						
 				}
