@@ -22,7 +22,7 @@ public class MessageHandler implements Runnable {
 		this.gameState = gameState;
 		this.clientChannel = clientChannel;
 	}
-
+	
 	@Override
 	public void run() {
 		Operation operation = message.getOperation();
@@ -42,8 +42,7 @@ public class MessageHandler implements Runnable {
 				} else if (dispatcher.playerCategory.equals(PlayerCategory.PRIMARY_PLAYER) && dispatcher.connectionToSecondary != null) {
 					System.out.println("Sync GameInfo with Secondary");
 					Message msg = new Message(Operation.PROPAGATE_PLAYER_LIST, message.getGameInfo(), message.getGameState(), dispatcher.currentPlayerInfo);
-					dispatcher.messagesToSend.put(dispatcher.connectionToSecondary, msg);
-					dispatcher.connectionToSecondary.keyFor(dispatcher.selector).interestOps(SelectionKey.OP_WRITE);						
+					dispatcher.messagesToSend.put(dispatcher.connectionToSecondary, msg);						
 				}
 			}
 			break;

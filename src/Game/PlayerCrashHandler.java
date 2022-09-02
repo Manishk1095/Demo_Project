@@ -1,14 +1,13 @@
 package Game;
 
 import java.io.IOException;
-import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.rmi.RemoteException;
 
 import Tracker.GameInfo;
 import Tracker.PlayerInfo;
 
-public class PlayerCrashHandler implements Runnable {
+public class PlayerCrashHandler {
 
 	private Dispatcher dispatcher;
 	private PlayerInfo crashedPlayer;
@@ -21,8 +20,7 @@ public class PlayerCrashHandler implements Runnable {
 		this.gameInfo = gameInfo;
 	}
 
-	@Override
-	public void run() {
+	public void handle() {
 		try {
 			switch (dispatcher.playerCategory) {
 			case PRIMARY_PLAYER:
@@ -34,13 +32,11 @@ public class PlayerCrashHandler implements Runnable {
 					PlayerInfo newSecondaryPlayer = latestGameInfo.getPlayerList().get(1);
 					SocketChannel channel = dispatcher.playerIdToSocket.get(newSecondaryPlayer.getId());
 					dispatcher.messagesToSend.put(channel, message);
-					channel.keyFor(dispatcher.selector).interestOps(SelectionKey.OP_WRITE);
 				} else {
 					GameInfo latestGameInfo = dispatcher.trackerStub.reportCrashedPlayer(crashedPlayer.getId());
 					dispatcher.updateGameInfo(latestGameInfo);
 					Message message = new Message(Operation.PROPAGATE_PLAYER_LIST, latestGameInfo, null, dispatcher.currentPlayerInfo);
 					dispatcher.messagesToSend.put(dispatcher.connectionToSecondary, message);
-					dispatcher.connectionToSecondary.keyFor(dispatcher.selector).interestOps(SelectionKey.OP_WRITE);
 				}
 				break;
 			case SECONDARY_PLAYER:
